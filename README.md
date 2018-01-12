@@ -1,4 +1,8 @@
-# tv-navigation
+<p align="center">
+  <img src="https://br.vuejs.org/images/logo.png" alt="SmartTV Grid Navigation Vue" width="230" />
+</p>
+
+# SmartTv Navigation Grid em Vue.js + Vuex
 
 > SmartTV Navigation Grid Vue.js
 
