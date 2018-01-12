@@ -1,6 +1,6 @@
 # tv-navigation
 
-> SmartTV Navigation Grid
+> SmartTV Navigation Grid Vue.js
 
 ## Build Setup
 
