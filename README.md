@@ -1,10 +1,19 @@
-# SmartTv Navigation Grid em Vue.js + Vuex
+# SmartTv Navigation Grid in Vue.js + Vuex
 
 > SmartTV Navigation Grid Vue.js
 
 <p align="center">
   <img src="https://br.vuejs.org/images/logo.png" alt="SmartTV Grid Navigation Vue" width="230" />
 </p>
+
+## Platform Support
+- [ ] Samsung Tizen
+- [ ] Samsung Orsay
+- [ ] LG webOS
+- [ ] LG NetCast
+- [ ] Sony
+- [ ] Panasonic
+- [ ] Philips
 
 ## Build Setup
 
