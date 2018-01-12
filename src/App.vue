@@ -1,61 +1,63 @@
 <template>
   <div id="app">
     <div class="nav">
-      <a href="#" class="btn circle back">item 1</a>
-      <a href="#" class="btn circle search2">item 2</a>
-      <a href="#" class="btn circle search">item 3</a>
+      <a v-for="item of menu" :key="item.id" :class="item.classItem" href="#">{{item.text}}</a>
     </div>
     
     <div class="nav">
       <ul class="rail">
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
+        <li v-for="item of trilho1" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
       </ul>
     </div>
     <div class="nav">
       <ul class="rail">
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
+        <li v-for="item of trilho2" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
       </ul>
     </div>
 
     <div class="nav">
       <ul class="rail">
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
-        <li class="card"><a href="#"></a></li>
+        <li v-for="item of trilho3" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
+      </ul>
+    </div>
+
+    <div class="nav">
+      <ul class="rail">
+        <li v-for="item of trilho4" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
+
 export default {
   name: 'app',
   beforeMount () {
-    if(document.getElementsByClassName("nav") === undefined){
-      return null
-    }else{
       this.navigationApp().init() 
-    }       
+  },
+  computed: {
+      menu() {
+          return this.$store.state.menu_itens
+      },
+      trilho1() {
+          return this.$store.state.trilho1
+      },
+      trilho2() {
+          return this.$store.state.trilho2
+      },
+      trilho3() {
+          return this.$store.state.trilho3
+      },
+      trilho4() {
+          return this.$store.state.trilho4
+      }
   },
   methods: {
     navigationApp () {
-        var top = 38,
+        let top = 38,
             right = 39,
             bottom = 40,
             left = 37,
@@ -68,20 +70,16 @@ export default {
             g = null,
             r = null,
             f = function(top) {
-                
                 c = row[item], 
                 itemQtd = c.getElementsByTagName("a").length, 
-                teste(),
+                checkLastItem(),
                 void 0 !== top && focusItem()
             },
             focusItem = function() {
                 g = c.getElementsByTagName("a"), 
                 (r = g[indexItem]).focus()
             },
-            teste = function() {
-              console.log(indexItem)
-              console.log(itemQtd)
-              console.log(g)
+            checkLastItem = function() {
               if(indexItem >= itemQtd){
                 indexItem = itemQtd -1
               }
@@ -163,7 +161,8 @@ ul {
 .btn:focus,
 .btn.active {
   opacity: 1;
-  border-color: red!important
+  border-color: red;
+  color: red
 }
 .btn.back {
   left: 10px;
@@ -207,11 +206,15 @@ ul {
     -webkit-box-shadow: 10px 10px 5px -9px rgba(0,0,0,0.36);
     -moz-box-shadow: 10px 10px 5px -9px rgba(0,0,0,0.36);
     box-shadow: 9px 0 6px -9px rgba(0,0,0,0.30);
+    text-decoration: none;
+    font-size: 25px;
+    line-height: 90px;
 }
 .card a:hover,
 .card a:focus,
 .card a.active {
   opacity: 1;
-  border-color: red
+  border-color: red;
+  color: red
 }
 </style>
