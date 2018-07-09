@@ -13,7 +13,7 @@
       </div>
       <ul class="rail">
         <li v-for="item in data.slice(0, 8)" :key="item.id" class="card">
-          <a href="#">
+          <a href="#" v-bind:style="{ color: item.channel.color }">
             <span>{{ item.title.name }}</span>
             <div class="sinopse">{{item.title.synopsis}}</div>
           </a>
@@ -23,7 +23,7 @@
     <div class="nav">
       <ul class="rail">
         <li v-for="item in data.slice(8, 16)" :key="item.id" class="card">
-          <a href="#">
+          <a href="#" v-bind:style="{ color: item.channel.color }">
             <span>{{ item.title.name }}</span>
             <div class="sinopse">{{item.title.synopsis}}</div>
           </a>
@@ -33,7 +33,7 @@
     <div class="nav">
       <ul class="rail">
         <li v-for="item in data.slice(16, 24)" :key="item.id" class="card">
-          <a href="#">
+          <a href="#" v-bind:style="{ color: item.channel.color }">
             <span>{{ item.title.name }}</span>
             <div class="sinopse">{{item.title.synopsis}}</div>
           </a>
@@ -238,8 +238,8 @@ ul {
 .filtro a:hover,
 .filtro a:focus,
 .filtro a.active  {
-  border-color: red;
-  color: red;
+  border-color: #000;
+  color: #000;
   opacity: 1;
   outline: none;
 }
@@ -261,8 +261,8 @@ ul {
 .btn:focus,
 .btn.active {
   opacity: 1;
-  border-color: red;
-  color: red
+  border-color: #000;
+  color: #000000
 }
 .btn.back {
   left: 10px;
@@ -321,7 +321,7 @@ border-bottom: 2px solid #ffffff
   font-size: 14px;
   line-height: 18px;
   padding: 20px;
-  border: 1px solid red;
+  border: 1px solid #000000;
   display: none;
   opacity: 1;
 }
@@ -345,7 +345,7 @@ border-bottom: 2px solid #ffffff
 }
 .sinopse:before {
 	border-color: rgba(255, 0, 0, 0);
-	border-bottom-color: #ff0000;
+	border-bottom-color: #000000;
 	border-width: 21px;
 	margin-left: -21px;
 }
@@ -361,8 +361,10 @@ border-bottom: 2px solid #ffffff
 }
 
 .card a{
-    opacity: 0.6;
+    opacity: 0.8;
     background: #e2e8ea;
+    border: 2px solid transparent;
+    border-radius: 3px;
     display: block;
     width: 100%;
     height: 100%;
@@ -382,14 +384,15 @@ border-bottom: 2px solid #ffffff
   line-height: 16px;
   vertical-align: middle;
   font-size: 16px;
-  display: inline-block
+  display: inline-block;
+  padding: 0 15px
 }
 .card a:hover,
 .card a:focus,
 .card a.active {
   opacity: 1;
-  border-color: red;
-  color: red
+  border-color: #000000;
+  color: #000000
 }
 .card a:hover .sinopse ,
 .card a:focus .sinopse ,
