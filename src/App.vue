@@ -1,7 +1,7 @@
 <template>
   <div id="app" >
     <div class="nav header" v-for="item in data.slice(0, 1)" :key="item.id" v-bind:style="{ backgroundColor: item.channel.color }">
-      <div class="filtro"><a href="#" v-on:click="getData(1);">GNT</a> <a href="#"  v-on:click="getData(2);">Multishow</a> <a href="#"  v-on:click="getData(3);">OFF</a></div>
+      <div class="filtro"><a href="#" v-on:click="getData(1);">GNT</a> <a href="#"  v-on:click="getData(2);">Multishow</a> <a href="#"  v-on:click="getData(3);">OFF</a> <a href="#"  v-on:click="getData(4);">VIVA</a> <a href="#"  v-on:click="getData(7);">GLOOB</a> <a href="#"  v-on:click="getData(11);">SporTV</a></div>
     </div>
     <div class="background" v-for="teste in data.slice(0, 1)" :key="teste.id" v-bind:style="{ 'background-image': 'url(' + teste.channel.live_thumb_url + ')' }">
     <div class="content">
