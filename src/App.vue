@@ -1,42 +1,70 @@
 <template>
-  <div id="app">
-    <div class="nav">
-      <a v-for="item of menu" :key="item.id" :class="item.classItem" href="#">{{item.text}}</a>
+  <div id="app" >
+    <div class="nav header" v-for="item in data.slice(0, 1)" :key="item.id" v-bind:style="{ backgroundColor: item.channel.color }">
+      <div class="filtro"><a href="#" v-on:click="getData(1);">GNT</a> <a href="#"  v-on:click="getData(2);">Multishow</a> <a href="#"  v-on:click="getData(3);">OFF</a></div>
     </div>
+    <div class="background" v-for="teste in data.slice(0, 1)" :key="teste.id" v-bind:style="{ 'background-image': 'url(' + teste.channel.live_thumb_url + ')' }">
+    <div class="content">
     
+    <br/><br/>
     <div class="nav">
+      <div v-for="item in data.slice(0, 1)" :key="item.id" class="logo" v-bind:style="{ backgroundColor: item.channel.color }">
+        <img v-bind:src="item.channel.default_logo_url" alt="" />
+      </div>
       <ul class="rail">
-        <li v-for="item of trilho1" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
+        <li v-for="item in data.slice(0, 8)" :key="item.id" class="card">
+          <a href="#">
+            <span>{{ item.title.name }}</span>
+            <div class="sinopse">{{item.title.synopsis}}</div>
+          </a>
+        </li>
       </ul>
     </div>
     <div class="nav">
       <ul class="rail">
-        <li v-for="item of trilho2" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
+        <li v-for="item in data.slice(8, 16)" :key="item.id" class="card">
+          <a href="#">
+            <span>{{ item.title.name }}</span>
+            <div class="sinopse">{{item.title.synopsis}}</div>
+          </a>
+        </li>
       </ul>
     </div>
-
     <div class="nav">
       <ul class="rail">
-        <li v-for="item of trilho3" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
+        <li v-for="item in data.slice(16, 24)" :key="item.id" class="card">
+          <a href="#">
+            <span>{{ item.title.name }}</span>
+            <div class="sinopse">{{item.title.synopsis}}</div>
+          </a>
+        </li>
       </ul>
     </div>
-
-    <div class="nav">
-      <ul class="rail">
-        <li v-for="item of trilho4" :key="item.id" class="card"><a href="#">{{item.text}}</a></li>
-      </ul>
+  </div>
     </div>
   </div>
 </template>
 
 <script>
 
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
+import gql from 'graphql-tag';
+import ApolloClient from 'apollo-boost'
+
+const client = new ApolloClient({
+  uri: 'http://iepsen.globo.com:4000/'
+})
 
 export default {
   name: 'app',
   beforeMount () {
-      this.navigationApp().init() 
+      this.getData(1);
+      this.navigationApp().init();
+  },
+  data() {
+    return {
+      data: []
+    }
   },
   computed: {
       menu() {
@@ -56,6 +84,27 @@ export default {
       }
   },
   methods: {
+    getData (channelId) {
+      client.query({
+        query: gql`
+          query TodoApp {
+            slotsRange(channelId: ${channelId}, startDate: "2018-07-09", endDate: "2018-07-9") {
+              title {
+                name
+                synopsis
+              }
+              channel {
+                name
+                color
+                default_logo_url
+                live_thumb_url
+              }}
+            }
+        `,
+      })
+        .then(data => this.data = data.data.slotsRange)
+        .catch(error => console.error(error));
+    },
     navigationApp () {
         let top = 38,
             right = 39,
@@ -125,7 +174,30 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-
+body {
+  overflow: hidden;
+}
+.background {
+  min-height: 700px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.background::after {
+  content: '';
+  display: block;
+  width: 100%;
+  min-height: 700px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #000000;
+  opacity: 0.7;
+}
+.content {
+  z-index: 1;
+  position: relative;
+}
 body {
   background: #f5f5f5;
   margin: 0;
@@ -142,7 +214,35 @@ ul {
   opacity: 0.6;
   outline: none;
 }
-
+.logo {
+  width: 150px;
+  text-align: center;
+  margin-left: 14px;
+  border-radius: 5px
+}
+.logo img {
+  width: 100%;
+  display: block
+}
+.filtro a {
+  display: inline-block;
+  margin: 10px;
+  text-decoration: none;
+  background-color: #e2e8ea;
+  border: 1px solid #002dd6;
+  padding: 5px 15px;
+  color: #002dd6;
+  opacity: 0.7;
+  outline: none;
+}
+.filtro a:hover,
+.filtro a:focus,
+.filtro a.active  {
+  border-color: red;
+  color: red;
+  opacity: 1;
+  outline: none;
+}
 .btn.circle {
     width: 50px;
     height: 50px;
@@ -176,22 +276,88 @@ ul {
 .btn.search2 {
   right: 80px;
 }
-
+h2 {
+  text-align: left;
+  padding-left: 20px
+}
 /* rail */
 .rail {
   margin: 20px 0 0;
   width: 100%;
-  top: 200px;
+  padding-top: 0;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
+.header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+  height: 60px;
+}
+.header a {
+  background: transparent;
+  border: none;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 2px solid transparent
+}
+.header a:focus,
+.header a:active {
+opacity: 1;
+color: #ffffff;
+border-bottom: 2px solid #ffffff
+}
+.sinopse {
+  position: absolute;
+  width: 300px;
+  background-color: #eaedee;
+  z-index: 9;
+  top: 130px;
+  left: 50%;
+  margin-left: -170px;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 20px;
+  border: 1px solid red;
+  display: none;
+  opacity: 1;
+}
+
+.sinopse:after, .sinopse:before {
+	bottom: 99.9%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.sinopse:after {
+	border-color: rgba(234, 237, 238, 0);
+	border-bottom-color: #eaedee;
+	border-width: 20px;
+	margin-left: -20px;
+}
+.sinopse:before {
+	border-color: rgba(255, 0, 0, 0);
+	border-bottom-color: #ff0000;
+	border-width: 21px;
+	margin-left: -21px;
+}
+
 .rail li {
   float: left;
-  margin: 0 0 0 10px;
+  margin: 0 0 10px 10px;
 }
 .card {
-  width: 70px;
-  height: 90px;
+  width: 150px;
+  height: 120px;
+
 }
 
 .card a{
@@ -208,7 +374,15 @@ ul {
     box-shadow: 9px 0 6px -9px rgba(0,0,0,0.30);
     text-decoration: none;
     font-size: 25px;
-    line-height: 90px;
+    line-height: 120px;
+    vertical-align: middle;
+    position: relative
+}
+.card a span {
+  line-height: 16px;
+  vertical-align: middle;
+  font-size: 16px;
+  display: inline-block
 }
 .card a:hover,
 .card a:focus,
@@ -216,5 +390,10 @@ ul {
   opacity: 1;
   border-color: red;
   color: red
+}
+.card a:hover .sinopse ,
+.card a:focus .sinopse ,
+.card a.active .sinopse {
+  display: block
 }
 </style>
